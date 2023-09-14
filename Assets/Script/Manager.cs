@@ -6,6 +6,8 @@ using Photon.Realtime;
 
 public class Manager : MonoBehaviourPunCallbacks
 {
+    [SerializeField]
+    Transform[] spawnPoints;
     private void Awake()
     {
         Screen.SetResolution(1080, 1920, false);
@@ -14,6 +16,8 @@ public class Manager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster() => PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 6}, null);
     public override void OnJoinedRoom()
     {
-        GameObject Pl = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        int playerNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        Transform spawnPoint = spawnPoints[playerNumber - 1];
+        GameObject Pl = PhotonNetwork.Instantiate("Player", spawnPoint.position, spawnPoint.rotation);
     }
 }
