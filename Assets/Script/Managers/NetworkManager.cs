@@ -25,9 +25,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField]   float[] cameraZPos;
     public PhotonView PV;
     public GameObject CurObj;
-
+    public static NetworkManager instance;
+    public int leftRight = 1;
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
         Screen.SetResolution(720, 540, false);
         NicknameInput.characterLimit = 6;
     }
@@ -79,6 +84,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Transform spawnPoint = spawnPoints[playerNumber - 1];
         GameObject Pl = PhotonNetwork.Instantiate("Prefabs/Player", spawnPoint.position, spawnPoint.rotation);
         Camera.main.transform.rotation = Quaternion.Euler(0, 0, cameraZPos[playerNumber - 1]);
+        leftRight = Master() ? 1 : -1;
         background.GetComponent<Background>().enabled = true;
     }
 

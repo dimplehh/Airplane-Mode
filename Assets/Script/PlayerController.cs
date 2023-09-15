@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     }
         void Move()
         {
-            float h = Input.GetAxis("Horizontal");
+            float h = Input.GetAxis("Horizontal") * NetworkManager.instance.leftRight ;
             transform.position += new Vector3(h * 5 * Time.deltaTime, 0, 0);
         }
 
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         GameObject bullet = OP.PoolInstantiate("Bullet", transform.position, transform.rotation);
         bullet.transform.position = transform.position;
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
-        rigid.velocity = Vector2.up * 3;
+        rigid.velocity = new Vector2(0, NetworkManager.instance.leftRight) * 3 ;
         curShotDelay = 0;
         }
 
