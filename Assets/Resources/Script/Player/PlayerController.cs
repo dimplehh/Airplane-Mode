@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
     }
-
     private void Update()
     {
         if (PV.IsMine)
@@ -41,6 +40,7 @@ public class PlayerController : MonoBehaviour
             Reload();
         }
     }
+
         void Move()
         {
             float h = Input.GetAxis("Horizontal") * NetworkManager.instance.leftRight ;
@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
         if(healthImage.fillAmount <= 0)
         {
             PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            GameObject.Find("Canvas").transform.Find("loseRegamePanel").gameObject.SetActive(true);
         }
     }
     [PunRPC]

@@ -16,8 +16,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("RoomPanel")]
     [SerializeField]   GameObject RoomPanel;
     [SerializeField]   GameObject InitGameBtn;
-
     [SerializeField] GameObject background;
+    [SerializeField] GameObject winRegamePanel;
+    [SerializeField] GameObject loseRegamePanel;
     [SerializeField] GameObject hostWaitingTxt;
     [SerializeField] GameObject disconnectTxt;
     [SerializeField] GameObject explainTxt;
@@ -31,6 +32,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public static NetworkManager instance;
     public int leftRight = 1;
     public bool startGame = false;
+    public int count = 1;
+    float time = 1f;
+
     private void Awake()
     {
         if (instance == null)
@@ -45,8 +49,25 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         if (!PhotonNetwork.InRoom) return;
-        countTxt.text = "대기실 인원 수\n( " + PhotonNetwork.CurrentRoom.PlayerCount.ToString() +" / 2 )" ;
+        if(RoomPanel.activeSelf) countTxt.text = "대기실 인원 수\n( " + PhotonNetwork.CurrentRoom.PlayerCount.ToString() +" / 2 )" ;
+        if(startGame) CheckWhoAreWinner();
      }
+
+    void CheckWhoAreWinner()
+    {
+        if (time <= 0)
+        {
+            GameObject[] Players = GameObject.FindGameObjectsWithTag("Player"); //1초에 한 번씩 scene에 비행기가 몇 개 있는지 체크
+            if (Players.Length != 2)
+            {
+                if(loseRegamePanel.activeSelf == false)
+                    winRegamePanel.SetActive(true);
+                startGame = false;
+            }
+            else time = 1f;
+        }
+        else time -= Time.deltaTime;
+    }
 
     public void Connect()
     {
@@ -139,6 +160,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     IEnumerator Restart()
     {
         yield return new WaitForSeconds(3.0f);
+    }
+
+    public void Restart2()
+    {
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene("SampleScene");
     }
