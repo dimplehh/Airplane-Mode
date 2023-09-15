@@ -10,6 +10,8 @@ using static ObjectPooler;
 public class PlayerController : MonoBehaviour
 {
     public PhotonView PV;
+    [SerializeField]
+    private StageData stageData;
     //[SerializeField]
     //GameObject NicknameText;
     public Image healthImage;
@@ -41,7 +43,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-        void Move()
+    private void LateUpdate()
+    {
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, stageData.LimitMin.x, stageData.LimitMax.x),
+                                                                    Mathf.Clamp(transform.position.y, stageData.LimitMin.y, stageData.LimitMax.y));
+    }
+
+    void Move()
         {
             float h = Input.GetAxis("Horizontal") * NetworkManager.instance.leftRight ;
             transform.position += new Vector3(h * 5 * Time.deltaTime, 0, 0);

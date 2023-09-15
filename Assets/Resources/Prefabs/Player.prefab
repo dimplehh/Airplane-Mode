@@ -377,6 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PV: {fileID: -4156189956447048554}
+  stageData: {fileID: 11400000, guid: 1d73db75c27fb24429b00be35d69a0eb, type: 2}
   healthImage: {fileID: 8857975517035137386}
   texture:
   - {fileID: 21300000, guid: fa7fdcb02bef53847b054b29750cfe36, type: 3}
