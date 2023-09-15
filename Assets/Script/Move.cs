@@ -9,6 +9,8 @@ using Photon.Realtime;
 public class Move : MonoBehaviour
 {
     public PhotonView PV;
+    //[SerializeField]
+    //GameObject NicknameText;
     [SerializeField]
     Sprite[] texture;
     [SerializeField]
@@ -18,7 +20,6 @@ public class Move : MonoBehaviour
     {
         //NicknameText.GetComponent<TMP_Text>().color = PV.IsMine?Color.green:Color.red;
         gameObject.GetComponent<SpriteRenderer>().sprite = PV.IsMine? texture[0]: texture[1];
-        //NicknameText.rectTransform.rotation= PV.IsMine ? Quaternion.Euler(XPos[0], 0, 0) : Quaternion.Euler(XPos[1], 0, 0);
     }
 
     private void Start()
