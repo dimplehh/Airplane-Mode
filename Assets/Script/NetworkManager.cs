@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
@@ -17,6 +18,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject background;
     [SerializeField] GameObject hostWaitingTxt;
+    [SerializeField] GameObject disconnectTxt;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField]  GameObject[] NicknameTexts;
     [SerializeField]   float[] cameraZPos;
@@ -24,7 +26,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        Screen.SetResolution(540, 540, false);
+        Screen.SetResolution(720, 540, false);
+        NicknameInput.characterLimit = 6;
     }
 
     public void Connect()
@@ -34,9 +37,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     public override void OnConnectedToMaster() => PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2}, null);
-
-    public void Disconnect() => PhotonNetwork.Disconnect();
-    public override void OnDisconnected(DisconnectCause cause) => print("¿¬°á ²÷±è");
 
     public override void OnJoinedRoom()
     {
@@ -73,10 +73,31 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             NicknameTexts[i].GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[i].NickName;
         }
         int playerNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-        Debug.Log(playerNumber);
         Transform spawnPoint = spawnPoints[playerNumber - 1];
         GameObject Pl = PhotonNetwork.Instantiate("Player", spawnPoint.position, spawnPoint.rotation);
         Camera.main.transform.rotation = Quaternion.Euler(0, 0, cameraZPos[playerNumber - 1]);
         background.GetComponent<Background>().enabled = true;
+    }
+
+    //private void Update()
+    //{
+    //    //if (Input.GetKeyDown(KeyCode.Escape) && PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
+
+    //}
+    //public override void OnDisconnected(DisconnectCause cause)
+    //{
+    //    DisconnectPanel.SetActive(true);
+    //}
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        disconnectTxt.SetActive(true); //ÇÃ·¹ÀÌ¾î°¡ ³ª°¬´Ù´Â °ÍÀ» ¾Ë·ÁÁÜ
+        StartCoroutine("Restart");
+    }
+    IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(3.0f);
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene("SampleScene");
     }
 }
