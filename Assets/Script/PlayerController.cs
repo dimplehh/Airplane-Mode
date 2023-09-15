@@ -12,15 +12,15 @@ public class PlayerController : MonoBehaviour
     public PhotonView PV;
     //[SerializeField]
     //GameObject NicknameText;
+    public Image healthImage;
     [SerializeField]
     Sprite[] texture;
     [SerializeField]
     float[] XPos;
-    [SerializeField]
-    GameObject bullet;
     float speed;
     float maxShotDelay = 0.5f;
     float curShotDelay;
+    Vector3 curPos;
 
     private void Awake()
     {
@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
             Fire();
             Reload();
         }
+        //else if ((transform.position - curPos).sqrMagnitude >= 100) transform.position = curPos;
+        //else transform.position = Vector3.Lerp(transform.position, curPos, Time.deltaTime * 10);
     }
         void Move()
         {
@@ -64,4 +66,36 @@ public class PlayerController : MonoBehaviour
         {
             curShotDelay += Time.deltaTime;
         }
+
+    public void Hit(float _damage)
+    {
+        Debug.Log("¸ÂÀ½");
+        PV.RPC("TakeHitRPC", RpcTarget.All, _damage);
+        if(healthImage.fillAmount <= 0)
+        {
+            PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        }
+    }
+    [PunRPC]
+    public void TakeHitRPC(float _damage)
+    {
+        healthImage.fillAmount -= _damage;
+    }
+
+    [PunRPC]
+    void DestroyRPC() => Destroy(gameObject);
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(healthImage.fillAmount);
+        }
+        else
+        {
+            curPos = (Vector3)stream.ReceiveNext();
+            healthImage.fillAmount = (float)stream.ReceiveNext();
+        }
+    }
 }

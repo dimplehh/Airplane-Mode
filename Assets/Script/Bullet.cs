@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+using static ObjectPooler;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviourPunCallbacks
 {
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-        
-    //}
+    public PhotonView PV;
+    int dir;
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-        
-    //}
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(!PV.IsMine && collision.tag == "Player" && collision.GetComponent<PhotonView>().IsMine)
+        {
+            collision.GetComponent<PlayerController>().Hit(0.34f);
+            OP.PoolDestroy(this.gameObject);
+        }
+    }
 }
