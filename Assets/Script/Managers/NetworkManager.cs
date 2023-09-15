@@ -74,7 +74,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         int playerNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         Transform spawnPoint = spawnPoints[playerNumber - 1];
-        GameObject Pl = PhotonNetwork.Instantiate("Player", spawnPoint.position, spawnPoint.rotation);
+        GameObject Pl = PhotonNetwork.Instantiate("Prefabs/Player", spawnPoint.position, spawnPoint.rotation);
         Camera.main.transform.rotation = Quaternion.Euler(0, 0, cameraZPos[playerNumber - 1]);
         background.GetComponent<Background>().enabled = true;
     }
