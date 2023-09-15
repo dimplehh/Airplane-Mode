@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using static ObjectPooler;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -23,6 +24,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField]  GameObject[] NicknameTexts;
     [SerializeField]   float[] cameraZPos;
     public PhotonView PV;
+    public GameObject CurObj;
 
     private void Awake()
     {
@@ -67,6 +69,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void InitGames()
     {
         RoomPanel.SetActive(false);
+        OP.PrePoolInstantiate();
         for (int i = 0; i < 2; i++)
         {
             NicknameTexts[i].SetActive(true);
@@ -79,15 +82,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         background.GetComponent<Background>().enabled = true;
     }
 
-    //private void Update()
-    //{
-    //    //if (Input.GetKeyDown(KeyCode.Escape) && PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
-
-    //}
-    //public override void OnDisconnected(DisconnectCause cause)
-    //{
-    //    DisconnectPanel.SetActive(true);
-    //}
+    void Update()
+    {
+        if (!PhotonNetwork.InRoom)
+            return;
+    }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {

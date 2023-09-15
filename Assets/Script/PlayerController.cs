@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using static ObjectPooler;
 
 public class PlayerController : MonoBehaviour
 {
@@ -52,12 +53,11 @@ public class PlayerController : MonoBehaviour
                 return;
             if (curShotDelay < maxShotDelay)
                 return;
-             GameObject bullet = ObjectManager.instance.MakeObj("bullet");
-             bullet.transform.position = transform.position;
-             Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
-             rigid.velocity = Vector2.up * 3;
-
-            curShotDelay = 0;
+        GameObject bullet = OP.PoolInstantiate("Bullet", transform.position, transform.rotation);
+        bullet.transform.position = transform.position;
+        Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.up * 3;
+        curShotDelay = 0;
         }
 
         void Reload()

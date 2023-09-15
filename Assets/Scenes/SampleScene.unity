@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 43080634}
   - component: {fileID: 43080636}
   - component: {fileID: 43080638}
-  - component: {fileID: 43080637}
+  - component: {fileID: 43080639}
   - component: {fileID: 43080633}
   - component: {fileID: 43080635}
   m_Layer: 0
@@ -256,6 +256,7 @@ MonoBehaviour:
   - 0
   - 180
   PV: {fileID: 43080635}
+  CurObj: {fileID: 0}
 --- !u!4 &43080634
 Transform:
   m_ObjectHideFlags: 0
@@ -305,19 +306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef737af23b8611042a6a6004d7795fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &43080637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43080632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1ebddfd8f2eb4f4fab9a14fa6de25f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3898244048326300528, guid: c95616aa71d3c8748ad3e9fa1a19931e, type: 3}
 --- !u!114 &43080638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +318,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0175500ef55b66740881b0e36f07825f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &43080639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43080632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21aaeea53a6c33b4f9f4e8f5627d39e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Bullet
+    prefab: {fileID: 3898244048326300528, guid: c95616aa71d3c8748ad3e9fa1a19931e, type: 3}
+    size: 30
 --- !u!1 &474051100
 GameObject:
   m_ObjectHideFlags: 0
