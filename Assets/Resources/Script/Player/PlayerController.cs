@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float[] XPos;
     float speed;
-    float maxShotDelay = 0.5f;
+    //float maxShotDelay = 0.5f;
     float curShotDelay;
     Vector3 curPos;
 
@@ -51,14 +51,14 @@ public class PlayerController : MonoBehaviour
         {
             if (!Input.GetKey(KeyCode.Space))
                 return;
-            if (curShotDelay < maxShotDelay)
+            if (curShotDelay < LevelManager.instance.maxShotDelay)
                 return;
         if (!NetworkManager.instance.startGame)
             return;
         GameObject bullet = OP.PoolInstantiate("Prefabs/Bullet", transform.position, transform.rotation);
         bullet.transform.position = transform.position;
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
-        rigid.velocity = new Vector2(0, NetworkManager.instance.leftRight) * 3 ;
+        rigid.velocity = new Vector2(0, NetworkManager.instance.leftRight) * LevelManager.instance.curSpeed ;
         curShotDelay = 0;
         }
 
