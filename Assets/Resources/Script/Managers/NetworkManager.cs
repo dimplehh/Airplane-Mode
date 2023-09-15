@@ -50,7 +50,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.InRoom) return;
         if(RoomPanel.activeSelf) countTxt.text = "대기실 인원 수\n( " + PhotonNetwork.CurrentRoom.PlayerCount.ToString() +" / 2 )" ;
-        if(startGame) CheckWhoAreWinner();
+        if(startGame && PhotonNetwork.CurrentRoom.PlayerCount == 2) CheckWhoAreWinner();
      }
 
     void CheckWhoAreWinner()
@@ -160,6 +160,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     IEnumerator Restart()
     {
         yield return new WaitForSeconds(3.0f);
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void Restart2()
