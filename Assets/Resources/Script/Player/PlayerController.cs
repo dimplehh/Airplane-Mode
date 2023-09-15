@@ -40,8 +40,6 @@ public class PlayerController : MonoBehaviour
             Fire();
             Reload();
         }
-        //else if ((transform.position - curPos).sqrMagnitude >= 100) transform.position = curPos;
-        //else transform.position = Vector3.Lerp(transform.position, curPos, Time.deltaTime * 10);
     }
         void Move()
         {
@@ -55,6 +53,8 @@ public class PlayerController : MonoBehaviour
                 return;
             if (curShotDelay < maxShotDelay)
                 return;
+        if (!NetworkManager.instance.startGame)
+            return;
         GameObject bullet = OP.PoolInstantiate("Prefabs/Bullet", transform.position, transform.rotation);
         bullet.transform.position = transform.position;
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
@@ -69,7 +69,6 @@ public class PlayerController : MonoBehaviour
 
     public void Hit(float _damage)
     {
-        Debug.Log("¸ÂÀ½");
         PV.RPC("TakeHitRPC", RpcTarget.All, _damage);
         if(healthImage.fillAmount <= 0)
         {

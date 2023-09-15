@@ -21,6 +21,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject hostWaitingTxt;
     [SerializeField] GameObject disconnectTxt;
     [SerializeField] GameObject explainTxt;
+    [SerializeField] GameObject countDownTxt;
     [SerializeField] TMP_Text countTxt;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField]  GameObject[] NicknameTexts;
@@ -29,7 +30,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject CurObj;
     public static NetworkManager instance;
     public int leftRight = 1;
-    bool startGame = false;
+    public bool startGame = false;
     private void Awake()
     {
         if (instance == null)
@@ -99,7 +100,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void InitGames()
     {
         RoomPanel.SetActive(false);
-        startGame = true;
         OP.PrePoolInstantiate();
         for (int i = 0; i < 2; i++)
         {
@@ -112,6 +112,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Camera.main.transform.rotation = Quaternion.Euler(0, 0, cameraZPos[playerNumber - 1]);
         leftRight = Master() ? 1 : -1;
         background.GetComponent<Background>().enabled = true;
+        StartCoroutine("CountDown");
+    }
+
+    IEnumerator CountDown()
+    {
+        countDownTxt.SetActive(true);
+        countDownTxt.GetComponent<TMP_Text>().text = "3";
+        yield return new WaitForSeconds(1.0f);
+        countDownTxt.GetComponent<TMP_Text>().text = "2";
+        yield return new WaitForSeconds(1.0f);
+        countDownTxt.GetComponent<TMP_Text>().text = "1";
+        yield return new WaitForSeconds(1.0f);
+        countDownTxt.SetActive(false);
+        startGame = true;
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer) //게임 실행하고 나서만 실행되도록 바꾸기
