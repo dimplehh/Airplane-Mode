@@ -10,15 +10,15 @@ public class Move : MonoBehaviour
 {
     public PhotonView PV;
     [SerializeField]
-    TMP_Text NicknameText;
-    [SerializeField]
     Sprite[] texture;
+    [SerializeField]
+    float[] XPos;
 
     private void Awake()
     {
-        NicknameText.color = PV.IsMine?Color.green:Color.red;
+        //NicknameText.GetComponent<TMP_Text>().color = PV.IsMine?Color.green:Color.red;
         gameObject.GetComponent<SpriteRenderer>().sprite = PV.IsMine? texture[0]: texture[1];
-        //transform.rotation = PV.IsMine ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(180, 0, 0);
+        //NicknameText.rectTransform.rotation= PV.IsMine ? Quaternion.Euler(XPos[0], 0, 0) : Quaternion.Euler(XPos[1], 0, 0);
     }
 
     private void Start()
