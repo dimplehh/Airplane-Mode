@@ -88,12 +88,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         background.GetComponent<Background>().enabled = true;
     }
 
-    void Update()
-    {
-        if (!PhotonNetwork.InRoom)
-            return;
-    }
-
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         disconnectTxt.SetActive(true); //플레이어가 나갔다는 것을 알려줌
