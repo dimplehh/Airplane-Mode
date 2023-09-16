@@ -11,6 +11,7 @@ public class StartGame : MonoBehaviour
             return;
         else
         {
+            SoundManager.instance.SfxPlaySound(3, new Vector3(0,0));
             SceneManager.LoadScene("LoadingScene");
         }
     }

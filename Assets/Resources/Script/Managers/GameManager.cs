@@ -63,8 +63,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void Connect()
     {
-        PhotonNetwork.LocalPlayer.NickName = UI.NicknameInput.text;
-        PhotonNetwork.ConnectUsingSettings();//서버 연결
+        if (UI.NicknameInput.text == "")
+        SoundManager.instance.SfxPlaySound(1, transform.position);
+        else
+        {
+            PhotonNetwork.LocalPlayer.NickName = UI.NicknameInput.text;
+            SoundManager.instance.SfxPlaySound(3, transform.position);
+            PhotonNetwork.ConnectUsingSettings();//서버 연결
+        }
     }
 
     public override void OnConnectedToMaster() => PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2}, null);
@@ -94,9 +100,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount != 2)
         {
+            SoundManager.instance.SfxPlaySound(1, transform.position);
             StartCoroutine("ShowExplain");
             return;
         }
+        SoundManager.instance.SfxPlaySound(2, transform.position);
         UI.InitGameBtn.SetActive(false);
         UI.hostWaitingTxt.SetActive(false);
         PV.RPC("InitGames", RpcTarget.AllViaServer);
@@ -158,6 +166,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void Restart2()
     {
+        SoundManager.instance.SfxPlaySound(3, transform.position);
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene("SampleScene");
     }
