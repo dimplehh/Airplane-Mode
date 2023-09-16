@@ -132,7 +132,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Transform spawnPoint = spawnPoints[playerNumber - 1];
         GameObject Pl = PhotonNetwork.Instantiate("Prefabs/Player", spawnPoint.position, spawnPoint.rotation);
         Pl.transform.rotation *= flipPlayer[playerNumber - 1];
-        Camera.main.transform.rotation = Quaternion.Euler(cameraZPos[playerNumber - 1], 0, 0);
+        Camera.main.transform.rotation = Quaternion.Euler(0, 0, cameraZPos[playerNumber - 1]);
         leftRight = Master() ? 1 : -1;
         background.GetComponent<Background>().enabled = true;
         StartCoroutine("CountDown");
