@@ -89,6 +89,18 @@ public class PlayerController : MonoBehaviour
     public void TakeHitRPC(float _damage)
     {
         healthImage.fillAmount -= _damage;
+        StartCoroutine("ImHit");
+    }
+
+    IEnumerator ImHit()
+    {
+        for(int i = 0; i < 2; i++)
+        {
+            transform.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.7f);
+            yield return new WaitForSeconds(0.05f);
+            transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 
     [PunRPC]
