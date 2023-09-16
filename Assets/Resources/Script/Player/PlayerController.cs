@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
                 return;
         if (!GameManager.instance.startGame)
             return;
+        SoundManager.instance.SfxPlaySound(0, transform.position);
         GameObject bullet = OP.PoolInstantiate("Prefabs/Bullet", transform.position, transform.rotation);
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
         rigid.velocity = new Vector2(0, GameManager.instance.leftRight) * LevelManager.instance.curSpeed ;
@@ -83,11 +84,13 @@ public class PlayerController : MonoBehaviour
         {
             PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
             GameObject.Find("Canvas").transform.Find("loseRegamePanel").gameObject.SetActive(true);
+            SoundManager.instance.SfxPlaySound(2, transform.position);
         }
     }
     [PunRPC]
     public void TakeHitRPC(float _damage)
     {
+        SoundManager.instance.SfxPlaySound(1, transform.position);
         healthImage.fillAmount -= _damage;
         StartCoroutine("ImHit");
     }

@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 if(UI.loseRegamePanel.activeSelf == false)
                     UI.winRegamePanel.SetActive(true);
+                SoundManager.instance.SfxPlaySound(2, transform.position);
                 startGame = false;
             }
             else time = 1f;
