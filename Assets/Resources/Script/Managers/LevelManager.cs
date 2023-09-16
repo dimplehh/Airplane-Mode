@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UIManager;
 
 public class LevelManager:MonoBehaviour
 {
-    public static LevelManager instance;
+    [HideInInspector]public static LevelManager instance;
     float[] time;
     float[] speed;
     float[] shotDelay;
     float maxTime;
-    public float curSpeed;
-    public float maxShotDelay;
-    [SerializeField]
-    GameObject waveText; 
+    [HideInInspector]public float curSpeed;
+    [HideInInspector]public float maxShotDelay;
 
     int i;
     int level;
@@ -38,11 +37,9 @@ public class LevelManager:MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.instance.startGame){ waveText.SetActive(false); return;}
+        if (!GameManager.instance.startGame){ return;}
         else
         {
-            if (waveText.activeSelf == false)
-                waveText.SetActive(true);
             if (time[i] > 0)
                 time[i] -= Time.deltaTime;
             else
@@ -58,7 +55,7 @@ public class LevelManager:MonoBehaviour
                 {
                     time[i] = maxTime;
                 }
-                waveText.GetComponent<TMP_Text>().text = "Wave " + level.ToString();
+                UI.waveTxt.GetComponent<TMP_Text>().text = "Wave " + level.ToString();
                 Debug.Log("·¹º§:" + level + " speed:" + curSpeed + " maxShotDelay:" + maxShotDelay);
             }
         }

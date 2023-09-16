@@ -7,35 +7,26 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using static ObjectPooler;
+using static UIManager;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    [Header("DisconnectPanel")]
-    [SerializeField]  GameObject DisconnectPanel;
-    [SerializeField]   TMP_InputField NicknameInput;
-    [Header("RoomPanel")]
-    [SerializeField]   GameObject RoomPanel;
-    [SerializeField]   GameObject InitGameBtn;
-    [SerializeField] GameObject background;
-    [SerializeField] GameObject winRegamePanel;
-    [SerializeField] GameObject loseRegamePanel;
-    [SerializeField] GameObject hostWaitingTxt;
-    [SerializeField] GameObject disconnectTxt;
-    [SerializeField] GameObject explainTxt;
-    [SerializeField] GameObject countDownTxt;
-    [SerializeField] TMP_Text countTxt;
-    [SerializeField] Transform[] spawnPoints;
-    [SerializeField]  GameObject[] NicknameTexts;
-    [SerializeField]   float[] cameraZPos;
-    UnityEngine.Quaternion[] flipPlayer = { Quaternion.Euler(0, 0, 0) , Quaternion.Euler(0, 180, 0) };
+    #region public
     public PhotonView PV;
-    public GameObject CurObj;
-    public static GameManager instance;
-    public int leftRight = 1;
-    public bool startGame = false;
-    public int count = 1;
+    [HideInInspector] public GameObject CurObj;
+    [HideInInspector] public static GameManager instance;
+    [HideInInspector] public int leftRight = 1;
+    [HideInInspector] public bool startGame = false;
+    [HideInInspector] public int count = 1;
+    #endregion public
+    #region private
+    [SerializeField] GameObject background;
+    [SerializeField] Transform[] spawnPoints;
+    [SerializeField] GameObject[] NicknameTexts;
+    [SerializeField] float[] cameraZPos;
+    UnityEngine.Quaternion[] flipPlayer = { Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, 180, 0) };
     float time = 1f;
-
+    #endregion
     private void Awake()
     {
         if (instance == null)
@@ -43,14 +34,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             instance = this;
         }
         Screen.SetResolution(720, 540, false);
-        NicknameInput.characterLimit = 6;
         startGame = false;
     }
 
     private void Update()
     {
         if (!PhotonNetwork.InRoom) return;
-        if(RoomPanel.activeSelf) countTxt.text = "대기실 인원 수\n( " + PhotonNetwork.CurrentRoom.PlayerCount.ToString() +" / 2 )" ;
+        if(UI.RoomPanel.activeSelf) UI.countTxt.text = "대기실 인원 수\n( " + PhotonNetwork.CurrentRoom.PlayerCount.ToString() +" / 2 )" ;
         if(startGame && PhotonNetwork.CurrentRoom.PlayerCount == 2) CheckWhoAreWinner();
      }
 
@@ -61,8 +51,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             GameObject[] Players = GameObject.FindGameObjectsWithTag("Player"); //1초에 한 번씩 scene에 비행기가 몇 개 있는지 체크
             if (Players.Length != 2)
             {
-                if(loseRegamePanel.activeSelf == false)
-                    winRegamePanel.SetActive(true);
+                if(UI.loseRegamePanel.activeSelf == false)
+                    UI.winRegamePanel.SetActive(true);
                 startGame = false;
             }
             else time = 1f;
@@ -72,7 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void Connect()
     {
-        PhotonNetwork.LocalPlayer.NickName = NicknameInput.text;
+        PhotonNetwork.LocalPlayer.NickName = UI.NicknameInput.text;
         PhotonNetwork.ConnectUsingSettings();//서버 연결
     }
 
@@ -80,17 +70,17 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        ShowPanel(RoomPanel);
-        if (Master()) InitGameBtn.SetActive(true);
+        ShowPanel(UI.RoomPanel);
+        if (Master()) UI.InitGameBtn.SetActive(true);
         else
         {
-            hostWaitingTxt.SetActive(true);
+            UI.hostWaitingTxt.SetActive(true);
         }
     }
 
     void ShowPanel(GameObject curPanel)
     {
-        DisconnectPanel.SetActive(false);
+        UI.DisconnectPanel.SetActive(false);
         curPanel.SetActive(true);
     }
 
@@ -106,50 +96,47 @@ public class GameManager : MonoBehaviourPunCallbacks
             StartCoroutine("ShowExplain");
             return;
         }
-        InitGameBtn.SetActive(false);
-        hostWaitingTxt.SetActive(false);
+        UI.InitGameBtn.SetActive(false);
+        UI.hostWaitingTxt.SetActive(false);
         PV.RPC("InitGames", RpcTarget.AllViaServer);
     }
 
     IEnumerator ShowExplain()
     {
-        explainTxt.SetActive(true);
+        UI.explainTxt.SetActive(true);
         yield return new WaitForSeconds(2.0f);
-        explainTxt.SetActive(false);
+        UI.explainTxt.SetActive(false);
     }
 
     [PunRPC]
     void InitGames()
     {
-        RoomPanel.SetActive(false);
+        UI.RoomPanel.SetActive(false);
         OP.PrePoolInstantiate();
-        for (int i = 0; i < 2; i++)
-        {
-            NicknameTexts[i].SetActive(true);
-            NicknameTexts[i].GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[i].NickName;
-        }
+        UI.NicknameTxt1.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[0].NickName;
+        UI.NicknameTxt2.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[1].NickName;
+
         int playerNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         Transform spawnPoint = spawnPoints[playerNumber - 1];
         GameObject Pl = PhotonNetwork.Instantiate("Prefabs/Player", spawnPoint.position, spawnPoint.rotation);
-        //Pl.transform.rotation *= flipPlayer[playerNumber - 1];
-        if(playerNumber == 2)
-            Pl.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
+        if(playerNumber == 2) Pl.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
         Camera.main.transform.rotation = Quaternion.Euler(0, 0, cameraZPos[playerNumber - 1]);
+
         leftRight = Master() ? 1 : -1;
         background.GetComponent<Background>().enabled = true;
+        UI.GameUI.SetActive(true);
         StartCoroutine("CountDown");
     }
 
     IEnumerator CountDown()
     {
-        countDownTxt.SetActive(true);
-        countDownTxt.GetComponent<TMP_Text>().text = "3";
-        yield return new WaitForSeconds(1.0f);
-        countDownTxt.GetComponent<TMP_Text>().text = "2";
-        yield return new WaitForSeconds(1.0f);
-        countDownTxt.GetComponent<TMP_Text>().text = "1";
-        yield return new WaitForSeconds(1.0f);
-        countDownTxt.SetActive(false);
+        UI.countDownTxt.SetActive(true);
+        for (int i = 3; i > 0; i--)
+        {
+            UI.countDownTxt.GetComponent<TMP_Text>().text = i.ToString();
+            yield return new WaitForSeconds(1.0f);
+        }
+        UI.countDownTxt.SetActive(false);
         startGame = true;
     }
 
@@ -157,7 +144,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if(startGame)
         {
-            disconnectTxt.SetActive(true); //플레이어가 나갔다는 것을 알려줌
+            UI.disconnectTxt.SetActive(true); //플레이어가 나갔다는 것을 알려줌
             StartCoroutine("Restart");
         }
     }
