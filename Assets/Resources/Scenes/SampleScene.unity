@@ -316,9 +316,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0175500ef55b66740881b0e36f07825f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: d0a8466466f12834f8885163914e8aec, type: 2}
   curSpeed: 0
   maxShotDelay: 0
-  waveText: {fileID: 437842352}
 --- !u!114 &43080639
 MonoBehaviour:
   m_ObjectHideFlags: 0
