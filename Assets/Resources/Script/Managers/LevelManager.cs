@@ -6,19 +6,22 @@ using TMPro;
 using static UIManager;
 using static ObjectPooler;
 
-public class LevelManager:MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-    [HideInInspector]public static LevelManager instance;
+    [HideInInspector] public static LevelManager instance;
     [SerializeField] private LevelData levelData;
     [SerializeField] private Transform[] spawnPoints;
     float maxTime;
-    [HideInInspector]public float curSpeed;
-    [HideInInspector]public float maxShotDelay;
+    [HideInInspector] public float curSpeed;
+    [HideInInspector] public float maxShotDelay;
 
     int i;
     int level;
     float curTime;
     float itemTime;
+
+    int realPos;
+    int realItem;
     void Awake()
     {
         if (instance == null)
@@ -28,7 +31,7 @@ public class LevelManager:MonoBehaviour
     }
     void Start()
     {
-        maxTime = levelData.time[9]; 
+        maxTime = levelData.time[9];
         curSpeed = levelData.speed[0];
         maxShotDelay = levelData.shotDelay[0];
         level = 1;
@@ -36,9 +39,9 @@ public class LevelManager:MonoBehaviour
         itemTime = 10f;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!GameManager.instance.startGame){ return;}
+        if (!GameManager.instance.startGame) { return; }
         else
         {
             if (curTime > 0) curTime -= Time.deltaTime;
@@ -71,14 +74,14 @@ public class LevelManager:MonoBehaviour
     IEnumerator ShowItems()
     {
         GameObject item;
-        Transform randPos = spawnPoints[Random.Range(0, 6)];
-
-        int randomItem = Random.Range(0, 2);
-        item = (randomItem == 0)
+        Debug.Log("realPos : " + realPos + "realItem:" + realItem);
+        realPos = ((int)curTime * 7) % 6;
+        realItem = ((int)curTime * 11) % 2; //난수인것같은 숫자 생성
+        Transform randPos = spawnPoints[realPos];
+        item = (realItem == 0)
             ?OP.PoolInstantiate("Prefabs/Star", randPos.position, randPos.rotation)
             : OP.PoolInstantiate("Prefabs/Heart", randPos.position, randPos.rotation);
         yield return new WaitForSeconds(1.5f);
-        if(item != null)
-            OP.PoolDestroy(item);
+        if(item != null) OP.PoolDestroy(item);
     }
 }

@@ -316,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0175500ef55b66740881b0e36f07825f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 43080635}
   levelData: {fileID: 11400000, guid: d0a8466466f12834f8885163914e8aec, type: 2}
   spawnPoints:
   - {fileID: 1291188148}
