@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7792517821889928420}
   - component: {fileID: 7792517821889928421}
   - component: {fileID: 7792517821889928422}
+  - component: {fileID: 7792517821889928441}
   - component: {fileID: 7792517821889928423}
   - component: {fileID: 7792517821889928440}
-  - component: {fileID: 7792517821889928441}
   - component: {fileID: 7792517821889928442}
   m_Layer: 0
   m_Name: Star
@@ -111,6 +111,19 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7792517821889928441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7792517821889928443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcdcd77e4b0f9734b98e009a063f096e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PV: {fileID: 7792517821889928422}
 --- !u!114 &7792517821889928423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,18 +152,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.16322374}
   serializedVersion: 2
   m_Radius: 1.8574333
---- !u!114 &7792517821889928441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7792517821889928443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcdcd77e4b0f9734b98e009a063f096e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &7792517821889928442
 Animator:
   serializedVersion: 5

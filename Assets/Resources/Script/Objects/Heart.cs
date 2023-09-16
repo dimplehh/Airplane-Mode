@@ -7,10 +7,10 @@ using static ObjectPooler;
 
 public class Heart : MonoBehaviourPunCallbacks
 {
-  //  public PhotonView PV;
+    public PhotonView PV;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && collision.GetComponent<PhotonView>().IsMine)
+        if (collision.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerController>().eatHeart = true;
             OP.PoolDestroy(this.gameObject);
