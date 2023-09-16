@@ -27,6 +27,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform[] spawnPoints;
     [SerializeField]  GameObject[] NicknameTexts;
     [SerializeField]   float[] cameraZPos;
+    UnityEngine.Quaternion[] flipPlayer = { Quaternion.Euler(0, 0, 0) , Quaternion.Euler(0, 180, 0) };
     public PhotonView PV;
     public GameObject CurObj;
     public static NetworkManager instance;
@@ -130,7 +131,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         int playerNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         Transform spawnPoint = spawnPoints[playerNumber - 1];
         GameObject Pl = PhotonNetwork.Instantiate("Prefabs/Player", spawnPoint.position, spawnPoint.rotation);
-        Camera.main.transform.rotation = Quaternion.Euler(0, 0, cameraZPos[playerNumber - 1]);
+        Pl.transform.rotation *= flipPlayer[playerNumber - 1];
+        Camera.main.transform.rotation = Quaternion.Euler(cameraZPos[playerNumber - 1], 0, 0);
         leftRight = Master() ? 1 : -1;
         background.GetComponent<Background>().enabled = true;
         StartCoroutine("CountDown");

@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     public PhotonView PV;
     [SerializeField]
     private StageData stageData;
-    //[SerializeField]
-    //GameObject NicknameText;
+    [SerializeField]
+    GameObject NicknameText;
     public Image healthImage;
     [SerializeField]
     Sprite[] texture;
@@ -26,7 +26,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        //NicknameText.GetComponent<TMP_Text>().color = PV.IsMine?Color.green:Color.red;
+        NicknameText.GetComponent<TMP_Text>().color = PV.IsMine?Color.green:Color.red;
+        NicknameText.GetComponent<TMP_Text>().text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
+        NicknameText.GetComponent<RectTransform>().localRotation = PV.IsMine? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0,0,180);
         gameObject.GetComponent<SpriteRenderer>().sprite = PV.IsMine? texture[0]: texture[1];
     }
 
@@ -64,7 +66,6 @@ public class PlayerController : MonoBehaviour
         if (!NetworkManager.instance.startGame)
             return;
         GameObject bullet = OP.PoolInstantiate("Prefabs/Bullet", transform.position, transform.rotation);
-        //bullet.transform.position = transform.position;
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
         rigid.velocity = new Vector2(0, NetworkManager.instance.leftRight) * LevelManager.instance.curSpeed ;
         curShotDelay = 0;
