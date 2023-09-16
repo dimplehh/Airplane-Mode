@@ -20,7 +20,7 @@ public class ObjectPooler : MonoBehaviourPun
 
 	public List<Pool> pools;
 	public Dictionary<string, Queue<GameObject>> poolDictionary;
-
+	Vector3 tempVec = new Vector3(50, 50, 0);
 
 	public void PrePoolInstantiate()
 	{
@@ -30,7 +30,7 @@ public class ObjectPooler : MonoBehaviourPun
 			Queue<GameObject> objectPool = new Queue<GameObject>();
 			for (int i = 0; i < pool.size; i++)
 			{
-				GameObject obj = PhotonNetwork.Instantiate(pool.tag, Vector3.zero, Quaternion.identity);
+				GameObject obj = PhotonNetwork.Instantiate(pool.tag, tempVec , Quaternion.identity);
 				obj.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, false);
 				objectPool.Enqueue(obj);
 			}

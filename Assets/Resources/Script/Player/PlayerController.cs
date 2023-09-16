@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         if (!NetworkManager.instance.startGame)
             return;
         GameObject bullet = OP.PoolInstantiate("Prefabs/Bullet", transform.position, transform.rotation);
-        bullet.transform.position = transform.position;
+        //bullet.transform.position = transform.position;
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
         rigid.velocity = new Vector2(0, NetworkManager.instance.leftRight) * LevelManager.instance.curSpeed ;
         curShotDelay = 0;
