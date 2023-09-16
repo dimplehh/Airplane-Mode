@@ -10,7 +10,7 @@ public class LevelManager:MonoBehaviour
     float[] time;
     float[] speed;
     float[] shotDelay;
-    float maxT;
+    float maxTime;
     public float curSpeed;
     public float maxShotDelay;
     [SerializeField]
@@ -30,12 +30,13 @@ public class LevelManager:MonoBehaviour
         time = new float[10] { 5.0f, 5.0f, 10.0f, 10.0f, 15.0f, 15.0f, 15.0f, 20.0f, 20.0f, 20.0f };
         speed = new float[10] { 2.4f, 2.7f, 3.0f, 3.3f, 3.6f, 3.9f, 4.2f, 4.5f , 4.8f, 4.8f};
         shotDelay = new float[10] { 0.5f, 0.5f, 0.4f, 0.4f, 0.4f, 0.3f, 0.3f, 0.3f, 0.2f, 0.2f};
+        maxTime = time[9]; 
         curSpeed = speed[0];
         maxShotDelay = shotDelay[0];
         level = 1;
     }
 
-    void Update() //stop 조건이 해지되도록 조건 추가
+    void Update()
     {
         if (!NetworkManager.instance.startGame){ waveText.SetActive(false); return;}
         else
@@ -51,9 +52,14 @@ public class LevelManager:MonoBehaviour
                     i++;
                     curSpeed = speed[i];
                     maxShotDelay = shotDelay[i];
+                    level++;
                 }
-                level++;
+                else
+                {
+                    time[i] = maxTime;
+                }
                 waveText.GetComponent<TMP_Text>().text = "Wave " + level.ToString();
+                Debug.Log("레벨:" + level + " speed:" + curSpeed + " maxShotDelay:" + maxShotDelay);
             }
         }
     }
