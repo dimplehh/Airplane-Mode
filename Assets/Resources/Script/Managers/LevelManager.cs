@@ -63,7 +63,7 @@ public class LevelManager:MonoBehaviour
             else
             {
                 StartCoroutine("ShowItems");
-                itemTime = 10f;
+                itemTime = 5f;
             }
         }
     }
@@ -75,10 +75,10 @@ public class LevelManager:MonoBehaviour
 
         int randomItem = Random.Range(0, 2);
         item = (randomItem == 0)
-            ?OP.PoolInstantiate("Prefabs/Bigger", randPos.position, randPos.rotation)
+            ?OP.PoolInstantiate("Prefabs/Star", randPos.position, randPos.rotation)
             : OP.PoolInstantiate("Prefabs/Heart", randPos.position, randPos.rotation);
-
         yield return new WaitForSeconds(1.5f);
-        OP.PoolDestroy(item);
+        if(item != null)
+            OP.PoolDestroy(item);
     }
 }

@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float[] XPos;
     float curShotDelay;
+    [HideInInspector]public bool eatStar = false;
+    [HideInInspector] public bool eatHeart = false;
 
     private void Awake()
     {
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
             Move();
             Fire();
             Reload();
+            Eat();
         }
     }
 
@@ -73,6 +76,35 @@ public class PlayerController : MonoBehaviour
         {
             curShotDelay += Time.deltaTime;
         }
+
+    void Eat()
+    {
+        if (eatHeart == false && eatStar == false)
+            return;
+        if (eatStar)
+            PV.RPC("TakeStarRPC", RpcTarget.All);
+        if (eatHeart)
+            PV.RPC("TakeHeartRPC", RpcTarget.All, 0.34f);
+    }
+
+    [PunRPC]
+    public void TakeHeartRPC(float _heart)
+    {
+        if (healthImage.fillAmount < 1) healthImage.fillAmount += _heart;
+        eatHeart = false;
+    }
+    [PunRPC]
+    public void TakeStarRPC()
+    {
+        StartCoroutine("EatStar");
+    }
+    IEnumerator EatStar()
+    {
+        transform.localScale = new Vector3(0.4f, 0.4f, 1);
+        yield return new WaitForSeconds(5.0f);
+        transform.localScale = new Vector3(0.5f, 0.5f, 1);
+        eatStar = false;
+    }
 
     public void Hit(float _damage)
     {

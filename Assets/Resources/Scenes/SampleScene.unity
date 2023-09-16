@@ -343,10 +343,10 @@ MonoBehaviour:
     prefab: {fileID: 3898244048326300528, guid: c95616aa71d3c8748ad3e9fa1a19931e, type: 3}
     size: 50
   - tag: Prefabs/Heart
-    prefab: {fileID: 2574576667383762114, guid: 8257a901a0d0a374f82154713f875473, type: 3}
+    prefab: {fileID: 1216360336355010528, guid: 8257a901a0d0a374f82154713f875473, type: 3}
     size: 5
-  - tag: Prefabs/Bigger
-    prefab: {fileID: 8312546199416172472, guid: 38f13b74d0b557843a53e4d46455f304, type: 3}
+  - tag: Prefabs/Star
+    prefab: {fileID: 7792517821889928443, guid: 38f13b74d0b557843a53e4d46455f304, type: 3}
     size: 5
 --- !u!114 &43080640
 MonoBehaviour:
