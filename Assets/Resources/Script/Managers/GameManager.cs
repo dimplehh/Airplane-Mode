@@ -8,7 +8,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using static ObjectPooler;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class GameManager : MonoBehaviourPunCallbacks
 {
     [Header("DisconnectPanel")]
     [SerializeField]  GameObject DisconnectPanel;
@@ -30,7 +30,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     UnityEngine.Quaternion[] flipPlayer = { Quaternion.Euler(0, 0, 0) , Quaternion.Euler(0, 180, 0) };
     public PhotonView PV;
     public GameObject CurObj;
-    public static NetworkManager instance;
+    public static GameManager instance;
     public int leftRight = 1;
     public bool startGame = false;
     public int count = 1;

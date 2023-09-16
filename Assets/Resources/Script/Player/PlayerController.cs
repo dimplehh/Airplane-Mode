@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
     void Move()
         {
-            float h = Input.GetAxis("Horizontal") * NetworkManager.instance.leftRight ;
+            float h = Input.GetAxis("Horizontal") * GameManager.instance.leftRight ;
             transform.position += new Vector3(h * 5 * Time.deltaTime, 0, 0);
         }
 
@@ -63,11 +63,11 @@ public class PlayerController : MonoBehaviour
                 return;
             if (curShotDelay < LevelManager.instance.maxShotDelay)
                 return;
-        if (!NetworkManager.instance.startGame)
+        if (!GameManager.instance.startGame)
             return;
         GameObject bullet = OP.PoolInstantiate("Prefabs/Bullet", transform.position, transform.rotation);
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
-        rigid.velocity = new Vector2(0, NetworkManager.instance.leftRight) * LevelManager.instance.curSpeed ;
+        rigid.velocity = new Vector2(0, GameManager.instance.leftRight) * LevelManager.instance.curSpeed ;
         curShotDelay = 0;
         }
 

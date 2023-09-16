@@ -38,7 +38,7 @@ public class LevelManager:MonoBehaviour
 
     void Update()
     {
-        if (!NetworkManager.instance.startGame){ waveText.SetActive(false); return;}
+        if (!GameManager.instance.startGame){ waveText.SetActive(false); return;}
         else
         {
             if (waveText.activeSelf == false)
