@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             StartCoroutine("ShowExplain");
             return;
         }
-        SoundManager.instance.SfxPlaySound(2, transform.position);
+        SoundManager.instance.SfxPlaySound(3, transform.position);
         UI.InitGameBtn.SetActive(false);
         UI.hostWaitingTxt.SetActive(false);
         PV.RPC("InitGames", RpcTarget.AllViaServer);
@@ -142,6 +142,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         UI.countDownTxt.SetActive(true);
         for (int i = 3; i > 0; i--)
         {
+            SoundManager.instance.SfxPlaySound(2, transform.position);
             UI.countDownTxt.GetComponent<TMP_Text>().text = i.ToString();
             yield return new WaitForSeconds(1.0f);
         }
