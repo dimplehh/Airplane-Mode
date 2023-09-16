@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static UIManager;
+using static ObjectPooler;
 
 public class LevelManager:MonoBehaviour
 {
     [HideInInspector]public static LevelManager instance;
     [SerializeField] private LevelData levelData;
+    [SerializeField] private Transform[] spawnPoints;
     float maxTime;
     [HideInInspector]public float curSpeed;
     [HideInInspector]public float maxShotDelay;
@@ -16,6 +18,7 @@ public class LevelManager:MonoBehaviour
     int i;
     int level;
     float curTime;
+    float itemTime;
     void Awake()
     {
         if (instance == null)
@@ -24,15 +27,13 @@ public class LevelManager:MonoBehaviour
         }
     }
     void Start()
-    {//Level Design
-        //time = new float[10] { 5.0f, 5.0f, 10.0f, 10.0f, 15.0f, 15.0f, 15.0f, 20.0f, 20.0f, 20.0f };
-        //speed = new float[10] { 2.4f, 2.7f, 3.0f, 3.3f, 3.6f, 3.9f, 4.2f, 4.5f , 4.8f, 4.8f};
-        //shotDelay = new float[10] { 0.5f, 0.5f, 0.4f, 0.4f, 0.4f, 0.3f, 0.3f, 0.3f, 0.2f, 0.2f};
+    {
         maxTime = levelData.time[9]; 
         curSpeed = levelData.speed[0];
         maxShotDelay = levelData.shotDelay[0];
         level = 1;
         curTime = levelData.time[0];
+        itemTime = 10f;
     }
 
     void Update()
@@ -56,7 +57,28 @@ public class LevelManager:MonoBehaviour
                 UI.waveTxt.GetComponent<TMP_Text>().text = "Wave " + level.ToString();
                 Debug.Log("레벨:" + level + " speed:" + curSpeed + " maxShotDelay:" + maxShotDelay);
             }
+
+            //아이템 등장
+            if (itemTime > 0) itemTime -= Time.deltaTime;
+            else
+            {
+                StartCoroutine("ShowItems");
+                itemTime = 10f;
+            }
         }
     }
 
+    IEnumerator ShowItems()
+    {
+        GameObject item;
+        Transform randPos = spawnPoints[Random.Range(0, 6)];
+
+        int randomItem = Random.Range(0, 2);
+        item = (randomItem == 0)
+            ?OP.PoolInstantiate("Prefabs/Bigger", randPos.position, randPos.rotation)
+            : OP.PoolInstantiate("Prefabs/Heart", randPos.position, randPos.rotation);
+
+        yield return new WaitForSeconds(1.5f);
+        OP.PoolDestroy(item);
+    }
 }

@@ -19,10 +19,7 @@ public class PlayerController : MonoBehaviour
     Sprite[] texture;
     [SerializeField]
     float[] XPos;
-    float speed;
-    //float maxShotDelay = 0.5f;
     float curShotDelay;
-    Vector3 curPos;
 
     private void Awake()
     {
@@ -113,12 +110,10 @@ public class PlayerController : MonoBehaviour
     {
         if(stream.IsWriting)
         {
-            stream.SendNext(transform.position);
             stream.SendNext(healthImage.fillAmount);
         }
         else
         {
-            curPos = (Vector3)stream.ReceiveNext();
             healthImage.fillAmount = (float)stream.ReceiveNext();
         }
     }
