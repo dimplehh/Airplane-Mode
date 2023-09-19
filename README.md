@@ -11,6 +11,15 @@
 - 프로젝트 목록에 해당 프로젝트가 뜨면 에디터 버전을 2021.3.xx 이상으로 세팅하고 실행합니다. (2021.3.22f로 설정하면 안정적으로 실행이 가능합니다.)
 - Build Settings에서 플랫폼을 Windows, Mac, Linux로 두고 Build를 실행하면 빌드를 할 수 있습니다.
 
-## 빌드 파일 실행 방법 ##
-- 각자의 컴퓨터 기기에서 빌드된 파일(GombleProject.exe)를 실행시킵니다.
+## 빌드 파일 실행 방법(1) ##
+- 각자의 컴퓨터 기기에서 빌드된 파일을 실행시킵니다.
 - 게임을 진행합니다.
+
+
+## 빌드 파일 실행 방법(2) ##
+https://drive.google.com/file/d/1awvakA4Ui70g79tijYBofBOzKUYLu7Cd/view?usp=sharing
+- 위 링크에서 압축파일을 다운받은 후 압축을 풀고 AirplameMode.exe를 실행시킵니다.
+- 게임을 진행합니다.
+
+## 게임 실행 영상 ##
+https://www.youtube.com/watch?v=h-dslVS3Nqg
